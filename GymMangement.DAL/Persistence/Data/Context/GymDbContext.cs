@@ -17,6 +17,7 @@ namespace GymMangement.DAL.Persistence.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+     
         }
 
         #region DbSets
