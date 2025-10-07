@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GymMangement.DAL.Models
+{
+    public class Plan : ModelBase
+    {
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public decimal Price { get; set; }
+        public int DuratiionDays { get; set; }
+        public bool IsActive { get; set; }
+        public ICollection<MemberShip> PlanMembers { get; set; } = new HashSet<MemberShip>();
+    }
+}
