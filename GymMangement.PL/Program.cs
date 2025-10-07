@@ -1,3 +1,7 @@
+using GymMangement.DAL.Persistence.Data.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 namespace GymMangement.PL
 {
     public class Program
@@ -8,7 +12,11 @@ namespace GymMangement.PL
 
             #region Conguration Services
             // Add services to the container.
-            builder.Services.AddControllersWithViews(); 
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<GymDbContext>((OptionsBuilder) =>
+            {
+                OptionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnction"));
+            });
             #endregion
 
             var app = builder.Build();

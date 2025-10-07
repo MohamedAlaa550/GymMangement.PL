@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GymMangement.DAL.Persistence.Data.Context
 {
-    internal class GymDbContext : DbContext
+    public class GymDbContext : DbContext
     {
         public GymDbContext(DbContextOptions<GymDbContext> options) : base(options)
         {
@@ -21,8 +21,22 @@ namespace GymMangement.DAL.Persistence.Data.Context
 
         #region DbSets
 
-       
 
+        public DbSet<Trainer> Trainers { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Session> Sessions { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+
+        public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<Plan> Plans { get; set; }
+
+        public DbSet<MemberShip> MemberShips { get; set; }
+
+        public DbSet<HealthRecord> HealthRecords { get; set; }
 
 
 
