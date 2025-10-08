@@ -123,6 +123,26 @@ namespace GymMangement.BLL.Services.Classes
             return memberViewModel;
         }
 
+        public MemberToUpdateViewModel? GetMemberForUpdate(int MemberId)
+        {
+            var member = _memberRepo.GetById(MemberId);
+            if (member == null)
+                return null!;
+            var memberToUpdateViewModel = new MemberToUpdateViewModel
+            {
+              
+                Photo = member.photo ?? string.Empty,
+                Name = member.Name,
+                Email = member.Email,
+                Phone = member.Phone,
+                BuldingNo= member.Adress.BuldingNo,
+                City= member.Adress.City,
+                Street=member.Adress.Street,
+
+            };
+            return memberToUpdateViewModel;
+        }
+
         public HealthRecordViewModel? GetMemberHealthRecord(int MemberId)
         {
             var memberHealthRecord = _healthRecordRepo.GetById(MemberId);
@@ -136,6 +156,28 @@ namespace GymMangement.BLL.Services.Classes
                 Note = memberHealthRecord.Notes ?? "N/A",
             };
             return healthRecordViewModel;
+
+        }
+
+        public bool UpdateMemberDetails(int MemberId, MemberToUpdateViewModel memberViewModel)
+        {
+            var member = _memberRepo.GetById(MemberId);
+            if (member == null)
+                return false;
+            if (IsEmailExists(member.Email))
+                return false;
+            if (IsPhoneExists(member.Phone))
+                return false;
+    
+            member.Email = memberViewModel.Email;
+            member.Phone = memberViewModel.Phone;
+           member.Adress.BuldingNo = memberViewModel.BuldingNo;
+            member.Adress.City = memberViewModel.City;
+            member.Adress.Street = memberViewModel.Street ?? string.Empty;
+            member.UpdatedAt = DateTime.Now;
+            _memberRepo.Update(member);
+            return true;
+
 
         }
 
