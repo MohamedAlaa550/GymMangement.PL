@@ -15,14 +15,19 @@ namespace GymMangement.BLL.Services.Classes
         private readonly IGenericRepository<Member> _memberRepo;
         private readonly IGenericRepository<MemberShip> _membershipRipo;
         private readonly IGenericRepository<Plan> _planRepo;
+        private readonly IGenericRepository<HealthRecord> _healthRecordRepo;
 
-        public MemberService(IGenericRepository<Member> memberRepo,
+        public MemberService(
+            IGenericRepository<Member> memberRepo,
             IGenericRepository<MemberShip> membershipRipo,
-            IGenericRepository<Plan> planRepo) 
+            IGenericRepository<Plan> planRepo,
+            IGenericRepository<HealthRecord> healthRecordRepo
+            ) 
         {
             _memberRepo = memberRepo;
             _membershipRipo = membershipRipo;
             _planRepo = planRepo;
+            _healthRecordRepo = healthRecordRepo;
         }
 
         public bool CreateMember(CreateMemberViewModel member)
@@ -117,6 +122,26 @@ namespace GymMangement.BLL.Services.Classes
             }
             return memberViewModel;
         }
+
+        public HealthRecordViewModel? GetMemberHealthRecord(int MemberId)
+        {
+            var memberHealthRecord = _healthRecordRepo.GetById(MemberId);
+            if (memberHealthRecord == null)
+                return null;
+            var healthRecordViewModel = new HealthRecordViewModel
+                {
+                Height = memberHealthRecord.Height,
+                Weight = memberHealthRecord.Weight,
+                BloodType = memberHealthRecord.BloodType ?? "N/A",
+                Note = memberHealthRecord.Notes ?? "N/A",
+            };
+            return healthRecordViewModel;
+
+        }
+
+
+
+
 
         #region Helper Methods
 
