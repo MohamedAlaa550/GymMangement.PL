@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace GymMangement.DAL.Persistence.Data.Configurations
 {
-    public class TrainerConfiguration : IEntityTypeConfiguration<Trainer>
+    public class TrainerConfiguration : GymUserConfigurations<Trainer> ,IEntityTypeConfiguration<Trainer>
     {
-        public void Configure(EntityTypeBuilder<Trainer> builder)
+        public new void  Configure(EntityTypeBuilder<Trainer> builder)
         {
             builder.Property(m => m.CreatedAt)
                  .HasColumnName("HireDate")
                  .HasDefaultValueSql("GETDATE()");
+            base.Configure(builder);
         }
     }
 }
