@@ -20,7 +20,8 @@ namespace GymMangement.PL
             {
                 OptionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnction"));
             });
-            builder.Services.AddScoped<IGenericRepository<ModelBase>, GenericRepository<ModelBase>>();
+           // builder.Services.AddScoped<IGenericRepository<ModelBase>, GenericRepository<ModelBase>>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
             var app = builder.Build();

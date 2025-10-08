@@ -20,13 +20,12 @@ namespace GymMangement.DAL.Persistence.Repositories.Classes
         public void Add(TEntity entity)
         {
             _context.Add(entity);
-            _context.SaveChanges();
         }
 
         public void Delete(TEntity entity)
         {
             _context.Remove(entity);
-            _context.SaveChanges();
+           
         }
 
         public IEnumerable<TEntity> GetAll(Func<TEntity, bool>? condition = null)
@@ -51,7 +50,6 @@ namespace GymMangement.DAL.Persistence.Repositories.Classes
         public void Update(TEntity entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
         }
     }
 }
