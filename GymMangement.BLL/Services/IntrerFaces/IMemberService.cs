@@ -19,6 +19,8 @@ namespace GymMangement.BLL.Services.IntrerFaces
         bool UpdateMemberDetails(int MemberId, MemberToUpdateViewModel member);
         MemberToUpdateViewModel? GetMemberForUpdate(int MemberId);
 
+        bool RemoveMember(int MemberId);
+
 
     }
 }

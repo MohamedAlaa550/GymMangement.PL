@@ -16,18 +16,22 @@ namespace GymMangement.BLL.Services.Classes
         private readonly IGenericRepository<MemberShip> _membershipRipo;
         private readonly IGenericRepository<Plan> _planRepo;
         private readonly IGenericRepository<HealthRecord> _healthRecordRepo;
+        private readonly IGenericRepository<Booking> _bookingRepo;
 
         public MemberService(
             IGenericRepository<Member> memberRepo,
             IGenericRepository<MemberShip> membershipRipo,
             IGenericRepository<Plan> planRepo,
-            IGenericRepository<HealthRecord> healthRecordRepo
+            IGenericRepository<HealthRecord> healthRecordRepo,
+            IGenericRepository<Booking> bookingRepo
+
             ) 
         {
             _memberRepo = memberRepo;
             _membershipRipo = membershipRipo;
             _planRepo = planRepo;
             _healthRecordRepo = healthRecordRepo;
+            _bookingRepo = bookingRepo;
         }
 
         public bool CreateMember(CreateMemberViewModel member)
@@ -157,6 +161,27 @@ namespace GymMangement.BLL.Services.Classes
             };
             return healthRecordViewModel;
 
+        }
+
+        public bool RemoveMember(int MemberId)
+        {
+            var member = _memberRepo.GetById(MemberId);
+            if (member == null)
+                return false;
+            var activeBookings = _bookingRepo
+                .GetAll(b => b.MemberId == MemberId && b.Session.StartDate > DateTime.Now);
+            if (activeBookings != null && activeBookings.Any())
+                return false;
+            var memberships = _membershipRipo.GetAll(ms => ms.MemberId == MemberId);
+            if (memberships != null && memberships.Any())
+            {
+                foreach (var membership in memberships)
+                {
+                    _membershipRipo.Delete(membership);
+                }
+            }
+            _memberRepo.Delete(member);
+            return true;
         }
 
         public bool UpdateMemberDetails(int MemberId, MemberToUpdateViewModel memberViewModel)
