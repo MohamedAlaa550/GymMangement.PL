@@ -13,10 +13,16 @@ namespace GymMangement.BLL.Services.Classes
     public class MemberService : IMemberService
     {
         private readonly IGenericRepository<Member> _memberRepo;
+        private readonly IGenericRepository<MemberShip> _membershipRipo;
+        private readonly IGenericRepository<Plan> _planRepo;
 
-        public MemberService(IGenericRepository<Member> memberRepo) 
+        public MemberService(IGenericRepository<Member> memberRepo,
+            IGenericRepository<MemberShip> membershipRipo,
+            IGenericRepository<Plan> planRepo) 
         {
             _memberRepo = memberRepo;
+            _membershipRipo = membershipRipo;
+            _planRepo = planRepo;
         }
 
         public bool CreateMember(CreateMemberViewModel member)
@@ -80,6 +86,36 @@ namespace GymMangement.BLL.Services.Classes
                 Gender = m.Gender.ToString(),
             });
             return memberViewModels;
+        }
+
+        public MemberViewModel GetMemberDetails(int MemberId)
+        {
+            var member = _memberRepo.GetById(MemberId);
+            if (member == null)
+                return null!;
+            var memberViewModel = new MemberViewModel
+            {
+                Id = member.id,
+                Photo = member.photo ?? string.Empty,
+                Name = member.Name,
+                Email = member.Email,
+                Phone = member.Phone,
+                DateOfBirth = member.DateOfBirth.ToShortDateString(),
+                Address = FormatAdress(member.Adress),
+            };
+            var activeMembership= _membershipRipo
+                .GetAll(ms=> ms.MemberId == MemberId && ms.Status == "Active")
+                .FirstOrDefault();
+
+            if (activeMembership != null)
+                {
+                memberViewModel.MembershipStartDate = activeMembership.CreatedAt.ToShortDateString();
+                memberViewModel.MembershipEndDate = activeMembership.EndDate.ToShortDateString();
+                var plan = _planRepo.GetById(activeMembership.PlanId);
+                if (plan != null)
+                    memberViewModel.PlanName = plan.Name;
+            }
+            return memberViewModel;
         }
 
         #region Helper Methods

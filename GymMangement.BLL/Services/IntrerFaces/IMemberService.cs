@@ -11,5 +11,7 @@ namespace GymMangement.BLL.Services.IntrerFaces
     {
         IEnumerable<MemberViewModel> GetAllMembers();
         bool CreateMember(CreateMemberViewModel member);
+
+        MemberViewModel GetMemberDetails(int MemberId);
     }
 }
