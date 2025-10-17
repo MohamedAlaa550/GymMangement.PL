@@ -10,6 +10,6 @@ namespace GymMangement.DAL.Persistence.Repositories.Interfaces
     public interface IUnitOfWork
     {
         IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : ModelBase;
-        int SaveChangesAsync();
+        int SaveChanges();
     }
 }

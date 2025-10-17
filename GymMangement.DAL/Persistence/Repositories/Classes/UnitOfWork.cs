@@ -32,7 +32,7 @@ namespace GymMangement.DAL.Persistence.Repositories.Classes
 
         }
 
-        public int SaveChangesAsync() => _context.SaveChanges();
+        public int SaveChanges() => _context.SaveChanges();
 
     }
 }

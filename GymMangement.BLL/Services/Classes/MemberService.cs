@@ -51,6 +51,8 @@ namespace GymMangement.BLL.Services.Classes
 
                 };
                 _unitOfWork.GetRepository<Member>().Add(newMember);
+                _unitOfWork.SaveChanges();
+                
                 return true;
 
 
@@ -166,6 +168,7 @@ namespace GymMangement.BLL.Services.Classes
                 }
             }
             _unitOfWork.GetRepository<Member>().Delete(member);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
@@ -186,6 +189,7 @@ namespace GymMangement.BLL.Services.Classes
             member.Adress.Street = memberViewModel.Street ?? string.Empty;
             member.UpdatedAt = DateTime.Now;
             _unitOfWork.GetRepository<Member>().Update(member);
+            _unitOfWork.SaveChanges();
             return true;
 
 
