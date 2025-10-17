@@ -1,4 +1,7 @@
+using GymMangement.DAL.Models;
 using GymMangement.DAL.Persistence.Data.Context;
+using GymMangement.DAL.Persistence.Repositories.Classes;
+using GymMangement.DAL.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -17,6 +20,8 @@ namespace GymMangement.PL
             {
                 OptionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnction"));
             });
+           // builder.Services.AddScoped<IGenericRepository<ModelBase>, GenericRepository<ModelBase>>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
             var app = builder.Build();

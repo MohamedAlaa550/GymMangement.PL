@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace GymMangement.DAL.Models
 {
-    public class Trainer: ModelBase
+    public class Trainer: GymUser
     {
-        public Specialties specialties { get; set; }
+        public Specialties? specialties { get; set; }
         public ICollection<Session> Sessions { get; set; } = new HashSet<Session>();
     }
 }
