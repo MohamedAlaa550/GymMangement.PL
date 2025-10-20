@@ -25,6 +25,7 @@ namespace GymMangement.PL
            // builder.Services.AddScoped<IGenericRepository<ModelBase>, GenericRepository<ModelBase>>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+            builder.Services.AddScoped<IMemberService, MemberService>();
             #endregion
 
             var app = builder.Build();

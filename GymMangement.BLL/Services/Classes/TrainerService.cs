@@ -65,7 +65,7 @@ namespace GymMangement.BLL.Services.Classes
                 Email = t.Email,
                 Phone = t.Phone,
                 DateOfBirth = t.DateOfBirth.ToShortDateString(),
-                specialties = t.specialties.ToString(),
+                specialties = t.specialties.ToString() ?? "N/A",
             });
             return trainerViewModels;
         }
