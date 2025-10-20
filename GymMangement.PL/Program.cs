@@ -1,3 +1,5 @@
+using GymMangement.BLL.Services.Classes;
+using GymMangement.BLL.Services.IntrerFaces;
 using GymMangement.DAL.Models;
 using GymMangement.DAL.Persistence.Data.Context;
 using GymMangement.DAL.Persistence.Repositories.Classes;
@@ -22,6 +24,7 @@ namespace GymMangement.PL
             });
            // builder.Services.AddScoped<IGenericRepository<ModelBase>, GenericRepository<ModelBase>>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
             #endregion
 
             var app = builder.Build();
