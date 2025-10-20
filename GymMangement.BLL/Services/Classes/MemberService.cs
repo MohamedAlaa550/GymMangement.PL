@@ -177,11 +177,19 @@ namespace GymMangement.BLL.Services.Classes
             var member = _unitOfWork.GetRepository<Member>().GetById(MemberId);
             if (member == null)
                 return false;
-            if (IsEmailExists(member.Email))
+
+
+            var existingEmail = _unitOfWork.GetRepository<Member>()
+                .GetAll(m=> m.Email == memberViewModel.Email && m.id != member.id);
+
+            var existingPhone = _unitOfWork.GetRepository<Member>()
+                .GetAll(m => m.Phone == memberViewModel.Phone && m.id != member.id);
+
+            if (existingEmail.Any() || existingPhone.Any())
                 return false;
-            if (IsPhoneExists(member.Phone))
-                return false;
-    
+
+
+
             member.Email = memberViewModel.Email;
             member.Phone = memberViewModel.Phone;
            member.Adress.BuldingNo = memberViewModel.BuldingNo;
