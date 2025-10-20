@@ -97,5 +97,21 @@ namespace GymMangement.PL.Controllers
 
         }
 
+        [HttpPost]
+
+        public IActionResult Delete([FromRoute]int id) 
+        {
+            var result = _memberService.RemoveMember(id);
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Member Deleted Successfully";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Member Faild To Delete. Member may have active bookings.";
+            }
+            return RedirectToAction("Index");
+
+        }
     }
 }

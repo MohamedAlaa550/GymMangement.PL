@@ -15,7 +15,7 @@
     </div>
 }
 
-else if (TempData["ErorrMessage"] != null)
+else if (TempData["ErrorMessage"] != null)
 {
       <div id="Alert" class="alert alert-danger alert-dismissible fade show">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -103,7 +103,7 @@ else if (TempData["ErorrMessage"] != null)
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <li>
-                                                <a asp-controller="Member" asp-action="MemberEdit" asp-route-id="@member.Id"
+                                                    <a asp-controller="Member" asp-action="MemberEdit" asp-route-id="@member.Id"
                                                        class="dropdown-item d-flex align-items-center gap-3">
                                                         <img src="~/images/edit.jpg" alt="edit icon"
                                                              style="width: 20px; height: 20px;" />
@@ -113,15 +113,45 @@ else if (TempData["ErorrMessage"] != null)
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
+
+
+                                            @*Delete Modal*@
+
+
+                                            <!-- Button trigger modal -->
                                                 <li>
-                                                    <a asp-controller="Member" asp-action="Delete" asp-route-id="@member.Id"
+                                                <button type="button"  data-bs-toggle="modal" data-bs-target="#DeleteModal-@member.Id"
                                                        class="dropdown-item d-flex align-items-center gap-3 text-danger">
                                                         <img src="~/images/x-circle 1.jpg" alt="delete icon"
                                                              style="width: 20px; height: 20px;" />
                                                         <span>Delete</span>
-                                                    </a>
+                                                    </button>
+
+
                                                 </li>
                                             </ul>
+
+                                        <!-- Delete Modal -->
+
+                                        <div class="modal fade" id="DeleteModal-@member.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Member</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are You Sure to Delete this Member?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form asp-action="Delete" asp-controller="Member" asp-route-id="@member.Id" class="mt-4">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -131,6 +161,8 @@ else if (TempData["ErorrMessage"] != null)
                         </tbody>
                     </table>
                 </div>
+
+
                 
             }
             else 
