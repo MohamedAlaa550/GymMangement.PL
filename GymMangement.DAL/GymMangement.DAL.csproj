@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\Data\Context\" />
-    <Folder Include="Persistence\Data\Configurations\" />
-    <Folder Include="Persistence\Repositories\" />
+    <Folder Include="Persistence\Data\Migrations\" />
   </ItemGroup>
 
 </Project>
