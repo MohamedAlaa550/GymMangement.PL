@@ -10,7 +10,7 @@ namespace GymMangement.BLL.ViewModels.TrainerViewModels
 {
     public  class TrainerToUpdateViewModel
     {
-        public string? Name { get; set; }
+        public string? Name { get; set; } = null!;   
         public string? Photo { get; set; }
 
         [Required(ErrorMessage = "Email Is Required")]
@@ -21,7 +21,7 @@ namespace GymMangement.BLL.ViewModels.TrainerViewModels
         [Required(ErrorMessage = "Phone Is Required")]
         [Phone(ErrorMessage = "Invalid Phone Number")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression("^(010|011|012|015)\\d{8}$\r\n", ErrorMessage = "You Must Type Valid Egyptian Number")]
+        [RegularExpression("^(010|011|012|015)\\d{8}$", ErrorMessage = "You Must Type Valid Egyptian Number")]
         public string Phone { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Date Of Birth Is Required")]

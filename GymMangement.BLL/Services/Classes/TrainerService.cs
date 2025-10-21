@@ -1,4 +1,5 @@
 ﻿using GymMangement.BLL.Services.IntrerFaces;
+using GymMangement.BLL.ViewModels.MemberViewModels;
 using GymMangement.BLL.ViewModels.TrainerViewModels;
 using GymMangement.DAL.Models;
 using GymMangement.DAL.Persistence.Repositories.Interfaces;
@@ -43,6 +44,7 @@ namespace GymMangement.BLL.Services.Classes
                     specialties = trainer.Specialties
                 };
                 _unitOfWork.GetRepository<Trainer>().Add(newTrainer);
+                _unitOfWork.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -65,7 +67,7 @@ namespace GymMangement.BLL.Services.Classes
                 Email = t.Email,
                 Phone = t.Phone,
                 DateOfBirth = t.DateOfBirth.ToShortDateString(),
-                specialties = t.specialties.ToString(),
+                specialties = t.specialties.ToString() ?? "N/A",
             });
             return trainerViewModels;
         }
@@ -117,29 +119,37 @@ namespace GymMangement.BLL.Services.Classes
             if (assignedSessions != null && assignedSessions.Any())
                 return false;
             _unitOfWork.GetRepository<Trainer>().Delete(existingTrainer);
+            _unitOfWork.SaveChanges();
             return true;
 
 
 
         }
 
-        public bool UpdateTrainerDetails(int TrainerId, TrainerToUpdateViewModel trainer)
+        public bool UpdateTrainerDetails(int TrainerId, TrainerToUpdateViewModel trainerViewMode)
         {
-            var existingTrainer = _unitOfWork.GetRepository<Trainer>().GetById(TrainerId);
-            if (existingTrainer == null)
+            var trainer = _unitOfWork.GetRepository<Trainer>().GetById(TrainerId);
+            if (trainer == null)
                 return false;
-            if (existingTrainer.Email != trainer.Email && IsEmailExists(trainer.Email))
+
+            var existingEmail = _unitOfWork.GetRepository<Trainer>()
+             .GetAll(m => m.Email == trainerViewMode.Email && m.id != trainer.id);
+
+            var existingPhone = _unitOfWork.GetRepository<Member>()
+                .GetAll(m => m.Phone == trainerViewMode.Phone && m.id != trainer.id);
+
+            if (existingEmail.Any() || existingPhone.Any())
                 return false;
-            if (existingTrainer.Phone != trainer.Phone && IsPhoneExists(trainer.Phone))
-                return false;
-            existingTrainer.Name = trainer.Name ?? "N/a";
-            existingTrainer.Email = trainer.Email;
-            existingTrainer.Phone = trainer.Phone;
-            existingTrainer.Adress.City = trainer.City;
-            existingTrainer.Adress.Street = trainer.Street ?? string.Empty;
-            existingTrainer.Adress.BuldingNo = trainer.BuldingNo;
-            existingTrainer.specialties = trainer.Specialties;
-            _unitOfWork.GetRepository<Trainer>().Update(existingTrainer);
+
+            
+            trainer.Email = trainerViewMode.Email;
+            trainer.Phone = trainerViewMode.Phone;
+            trainer.Adress.City = trainerViewMode.City;
+            trainer.Adress.Street = trainerViewMode.Street ?? string.Empty;
+            trainer.Adress.BuldingNo = trainerViewMode.BuldingNo;
+            trainer.specialties = trainerViewMode.Specialties;
+            _unitOfWork.GetRepository<Trainer>().Update(trainer);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
